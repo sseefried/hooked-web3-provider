@@ -122,7 +122,11 @@ var factory = function factory(Web3) {
           return next();
         }
 
-        var tx_params = payload.params[0];
+        /*
+         * Shallow copy must be done as other variables may reference
+         * payload.params[0]
+         */
+        var tx_params = Object.assign({}, payload.params[0]);
         var sender = tx_params.from;
 
         this.transaction_signer.hasAddress(sender, function (err, has_address) {
